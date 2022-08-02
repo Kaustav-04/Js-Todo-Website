@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Todo</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div id="container">
+        <h3 id="header">Todo App</h3>
+        <div id="todoBody">
+            <div id="addTodoSection">
+                <input type="text" name="newTodo" id="newTodoTxt" placeholder="Add your new Todo">
+                <button id="addNewTodoBtn"><i class="fa-solid fa-plus"></i></button>
+            </div>
+            <div id="todoVeiwSection">
+                <div id="taskHeadingSection">
+                    <h4 id="pendingHeading" class="show">Pending</h4>
+                    <h4 id="completedHeading">Completed</h4>
+                </div>
+                <div id="taskListSection">
+                    <div id="todoPending" class="taskList active">
+                        <div id="nullPending">No pending tasks left!</div>
+                        <div class="null">Add Tasks</div>
+                    </div>
+                    <div id="todoCompleted" class="taskList">
+                        <div id="nullCompleted">All tasks are pending</div>
+                        <div class="null">Add Tasks</div>
+                    </div>
+                </div>
+            </div>
+            <div id="todoCount">
+                <div id="counttxt"></div>
+                <button id="clearAll" style="display: none;">Clear All</button>
+            </div>
+        </div>
+    </div>
+    <script src="index.js"></script>
+</body>
+</html>
