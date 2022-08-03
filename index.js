@@ -19,6 +19,7 @@ let nulltask = document.getElementsByClassName("null");
 show();
 showPendingPage();
 
+
 // adding items to pending task
 
 addNewTodoBtn.addEventListener("click", function () {
@@ -67,18 +68,6 @@ function show() {
             nulltask[index].style.display = "none";
         });
 
-        if (taskObj.pendingTasks == []) {
-            nullPending.style.display = "block";
-            nullCompleted.style.display = "none";
-        }
-        else if (taskObj.completeTasks == []) {
-            nullPending.style.display = "none";
-            nullCompleted.style.display = "block";
-        }
-        else if (taskObj.completeTasks == [] && taskObj.pendingTasks == []) {
-            nullPending.style.display = "block";
-            nullCompleted.style.display = "block";
-        }
         // showing pending tasks
         let pending = `` //for adding the tasks added in pending
         if (taskObj.pendingTasks.length == 0) {
@@ -108,8 +97,8 @@ function show() {
                 complete += `<div class="task">
                             <div class="taskDescription">${taskObj.completeTasks[index1]}</div>
                             <div class="taskControls">
-                                <button class="delete" onclick="Delete(${index1})"><i class="fa-solid fa-trash"></i></button>
                                 <button class="completed"><i class="fa-solid fa-check"></i></button>
+                                <button class="delete" onclick="Delete(${index1})"><i class="fa-solid fa-trash"></i></button>
                             </div>
                         </div>`;
             }
@@ -149,7 +138,7 @@ function showPendingPage() {
     clearAll.style.display = "none";
     counttxt.innerHTML = `There are ${taskObj.pendingTasks.length} tasks pending!`;
 }
-function showCompletedCount() {
+function showCompletedPage() {
     todoPending.classList.remove("active");
     todoCompleted.classList.add("active");
     pendingHeading.classList.remove("show");
@@ -164,8 +153,7 @@ function sendToComplete(index) {
     taskObj.pendingTasks.splice(index, 1);
     taskObj.completeTasks.push(targetObj);
     localStorage.setItem("Tasks", JSON.stringify(taskObj));
-    showPendingPage();
-    showCompletedCount();
+    showCompletedPage();
     show();
 }
 
@@ -173,8 +161,8 @@ function Delete(index) {
     let taskObj = JSON.parse(localStorage.getItem("Tasks"));
     taskObj.completeTasks.splice(index, 1);
     localStorage.setItem("Tasks", JSON.stringify(taskObj));
-    showCompletedCount();
     show();
+    showCompletedPage();
 };
 
 function clearall() {
@@ -190,11 +178,11 @@ function clearall() {
         taskObj.completeTasks.splice(0, taskObj.completeTasks.length);
     }
     localStorage.setItem("Tasks", JSON.stringify(taskObj));
-    showCompletedCount();
+    showCompletedPage();
     show();
 }
 
 clearAll.addEventListener("click", clearall)
 pendingHeading.addEventListener("click", showPendingPage);
 
-completedHeading.addEventListener("click", showCompletedCount);
+completedHeading.addEventListener("click", showCompletedPage);
