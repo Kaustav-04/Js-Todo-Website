@@ -63,7 +63,7 @@ function show() {
     }
     else {
         taskObj = JSON.parse(task);
-        Array.from(nulltask).forEach(function (item,index) {
+        Array.from(nulltask).forEach(function (item, index) {
             nulltask[index].style.display = "none";
         });
 
@@ -71,46 +71,50 @@ function show() {
             nullPending.style.display = "block";
             nullCompleted.style.display = "none";
         }
-        else if(taskObj.completeTasks == []){
+        else if (taskObj.completeTasks == []) {
             nullPending.style.display = "none";
             nullCompleted.style.display = "block";
         }
-        else if(taskObj.completeTasks == [] & taskObj.pendingTasks == []){
+        else if (taskObj.completeTasks == [] && taskObj.pendingTasks == []) {
             nullPending.style.display = "block";
             nullCompleted.style.display = "block";
         }
-            // showing pending tasks
-
-            let pending = ""; //for adding the tasks added in pending
-        for (let index = 0; index < taskObj.pendingTasks.length; index++) {
-            // console.log(index);
-            pending += `<div class="task">
-                        <div class="taskDescription"><div class="taskText">${taskObj.pendingTasks[index]}</div><input type="text" class="editInput"><button class="saveEdit" onclick="saveEditBtn(${index})">Save</button></div>
-                        <div class="taskControls">
-                            <button class="edit" onclick="edit(${index})"><i class="fa-solid fa-pencil"></i></button>
-                            <button class="complete" onclick="sendToComplete(${index})"><i class="fa-solid fa-check"></i></button>
-                        </div>
-                    </div>`;
-            todoPending.innerHTML = pending;
+        // showing pending tasks
+        let pending = `` //for adding the tasks added in pending
+        if (taskObj.pendingTasks.length == 0) {
+            pending = `No pending tasks left!`
+        } else { 
+            for (let index = 0; index < taskObj.pendingTasks.length; index++) {
+                // console.log(index);
+                pending += `<div class="task">
+                            <div class="taskDescription"><div class="taskText">${taskObj.pendingTasks[index]}</div><input type="text" class="editInput"><button class="saveEdit" onclick="saveEditBtn(${index})">Save</button></div>
+                            <div class="taskControls">
+                                <button class="edit" onclick="edit(${index})"><i class="fa-solid fa-pencil"></i></button>
+                                <button class="complete" onclick="sendToComplete(${index})"><i class="fa-solid fa-check"></i></button>
+                            </div>
+                        </div>`;
+            }
         }
+        todoPending.innerHTML = pending;
 
         // showing completed Tasks
 
         let complete = "";
-        for (let index1 = 0; index1 < taskObj.completeTasks.length; index1++) {
-            // console.log(index);
-            complete += `<div class="task">
-                        <div class="taskDescription">${taskObj.completeTasks[index1]}</div>
-                        <div class="taskControls">
-                            <button class="delete" onclick="Delete(${index1})"><i class="fa-solid fa-trash"></i></button>
-                            <button class="completed"><i class="fa-solid fa-check"></i></button>
-                        </div>
-                    </div>`;
-            todoCompleted.innerHTML = complete;
+        if (taskObj.completeTasks.length == 0) {
+            complete = `All tasks are pending`
+        } else { 
+            for (let index1 = 0; index1 < taskObj.completeTasks.length; index1++) {
+                // console.log(index);
+                complete += `<div class="task">
+                            <div class="taskDescription">${taskObj.completeTasks[index1]}</div>
+                            <div class="taskControls">
+                                <button class="delete" onclick="Delete(${index1})"><i class="fa-solid fa-trash"></i></button>
+                                <button class="completed"><i class="fa-solid fa-check"></i></button>
+                            </div>
+                        </div>`;
+            }
         }
-
-
-
+        todoCompleted.innerHTML = complete;
     }
     localStorage.setItem("Tasks", JSON.stringify(taskObj));
     console.log(localStorage);
@@ -152,7 +156,6 @@ function showCompletedCount() {
     completedHeading.classList.add("show");
     clearAll.style.display = "block";
     counttxt.innerHTML = `${taskObj.completeTasks.length} tasks are completed out of ${taskObj.completeTasks.length + taskObj.pendingTasks.length}`;
-    // show();
 }
 
 // sending Tasks from pending to completed
@@ -167,11 +170,7 @@ function sendToComplete(index) {
 }
 
 function Delete(index) {
-    let task = localStorage.getItem("Tasks");
-    taskObj = JSON.parse(task);
-    if (index == 0) {
-        taskObj.completeTasks.pop()
-    }
+    let taskObj = JSON.parse(localStorage.getItem("Tasks"));
     taskObj.completeTasks.splice(index, 1);
     localStorage.setItem("Tasks", JSON.stringify(taskObj));
     showCompletedCount();
